@@ -1,0 +1,51 @@
+		if (List = Null) then
+			List:= new cell; 
+			List.Word:=Word;
+			List.Count:=1;
+			List.Next:=Null;
+
+		else
+			P_Aux:= List;
+			P_Aux_Igual:=List;
+			while not (P_Aux.Next = Null)loop
+
+				Igual:= Es_Igual(P_Aux.Word,Word);
+
+				if Igual = True then
+					P_Aux.Count:= P_Aux.Count +1;
+					P_Aux_Igual:=P_Aux;
+					P_Aux := P_Aux.Next;
+			
+				else 
+					P_Aux := P_Aux.Next;
+				End if;
+			end loop;
+
+			Igual2:= True;
+			P_Aux_Igual2:= P_Aux;
+			--Igual:= Es_Igual(P_Aux_Igual.Word,Word);
+			if Word_Null = "" then 
+				Igual:= True;
+			end if;
+			--Igual2:= Es_Igual(P_Aux_Igual2.Word,Word);
+
+			--If  P_Aux_Igual2.Count > 1 then
+				--Igual2:= True;
+			--end if ;
+			--If Igual2 = True then
+				--P_Aux_Igual2.Count:= P_Aux_Igual2.Count + 1;
+			--End if ;
+
+-- Cuidado está mal si la sigueinte palabra es igual 
+-- a la primera, en la primera pasada fallara..
+			If (Igual = False or Igual2= false) then
+				P_Aux2:= new cell;
+				P_Aux2.Word:= Word;
+				P_Aux2.Count:=1;
+				P_Aux2.Next:= Null;
+				P_Aux.Next:= P_Aux2;
+
+			end if;
+
+		end if;
+		

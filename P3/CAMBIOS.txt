@@ -1,0 +1,30 @@
+v3
+==
+[2.2] Traducción de la cadena de texto "No ha sido posible comunicarse con el
+servidor" por "Server unreachable".
+
+[3.1] Traducción de los mensajes del ejemplo de ejecución del chat_server_2
+
+[3.2] Traducción de la cadena de texto "ha sido expulsado del chat " por "banned 
+for being idle too long"
+
+[6.2] Añadido los parámetros out EP y Nick al subprograma Remove_Oldest
+
+
+v2
+==
+[6.2] Añadida aclaración de que sí pueden añadirse más cláusulas with a la 
+especificación del paquete Client_Lists
+
+[6.2] Añadido a Send_To_All el parámetro EP_Not_Send, y explicación del mismo.
+
+[6.2] Añadidos a la especificación del paquete Client_List los subprogramas:
+     Update_Client
+     Remove_Oldest
+     Count
+
+[6.2] Añadida la descripción de los nuevos subprogramas
+
+[6.2] Añadida aclaración de que en cada posición de la lista de clientes debe
+almacenarse la hora de último acceso de cada cliente.
+

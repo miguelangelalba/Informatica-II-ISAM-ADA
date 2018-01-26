@@ -1,0 +1,135 @@
+with Ada.Text_IO;
+with Ada.Command_Line;
+with Ada.Strings.Unbounded;
+with Ada.Exceptions;
+with Ada.IO_Exceptions;
+with Word_Lists;
+
+procedure Words is
+   package ACL renames Ada.Command_Line;
+   package ASU renames Ada.Strings.Unbounded;
+   
+   Usage_Error: exception;
+	
+	type Menu_Options is ('1','2','3','4','5');
+	
+--Declaración de Procedures
+
+--En quitar espacios, además añado la palabra
+	procedure quitar_espacios(Word_Aux:in ASU.Unbounded_String ; 
+					Word: out ASU.Unbounded_String;
+					List: in Out Word_Lists.Word_List_Type) is
+		
+	begin 
+	
+		if ASU.To_String(Word_Aux)= "" then 
+			Word:=ASU.To_Unbounded_String("No añadir espacio");
+		else
+			Word:= Word_Aux;
+			--Ada.Text_IO.Put_Line("Palabra:" & ASU.To_String(Word));
+			Word_Lists.Add_Word(List,Word);			
+		end if;
+
+	end quitar_espacios;
+   
+   procedure space_words(Line: in out ASU.Unbounded_String;
+						List: in out Word_Lists.Word_List_Type) is
+		N:integer;
+		Word:ASU.Unbounded_String;
+		Word_Aux:ASU.Unbounded_String;
+		Line_Aux:ASU.Unbounded_String;
+		
+	begin
+		
+	  loop
+			N:=ASU.Index(Line," ");
+
+			If N= 0 then 
+				Word_Aux:= Line;
+				quitar_espacios(Word_Aux,Word,List);
+				Word:=Word;
+				
+			End if;
+	
+			Exit when n=0;
+
+			Word_Aux:=Asu.Head(Line,N-1);
+			quitar_espacios(Word_Aux,Word,List);
+			Word:=Word;
+			Line:=ASU.Tail(Line,ASU.Length(Line)-N);
+				
+		end loop;
+	end space_words;
+
+	procedure Save_Word(Line: in out ASU.Unbounded_String) is 
+		Word:ASU.Unbounded_String;
+	begin
+		null;--space_words(Line,List);
+	end Save_Word;
+
+	--procedure Read_Text();
+
+	procedure Menu is 
+		
+--		M:Menu_Options;
+
+	begin
+		Ada.Text_IO.Put_Line("Options");
+		Ada.Text_IO.Put_Line("1 Add Word");
+		Ada.Text_IO.Put_Line("2 Delete Word");
+		Ada.Text_IO.Put_Line("3 Search word");
+		Ada.Text_IO.Put_Line("4 Show all words");
+		Ada.Text_IO.Put_Line("5 Quit");
+		
+--		M:= Ada.Text_IO.Get_Line;		
+		
+--		Case M is 
+--			when 1 =>
+--				Word_Lists.Add_Word(List,Word);
+--		End case;
+		
+	End Menu;
+
+--Declaración de Variables
+
+   File_Name: ASU.Unbounded_String;
+   File: Ada.Text_IO.File_Type;
+   Finish: Boolean;
+   Line: ASU.Unbounded_String;
+   List:Word_Lists.Word_List_Type;
+
+begin
+
+   if ACL.Argument_Count /= 2 then
+      raise Usage_Error;
+   end if;
+   
+
+   File_Name := ASU.To_Unbounded_String(ACL.Argument(1));
+			  Ada.Text_IO.Open(File, Ada.Text_IO.In_File,
+				ASU.To_String(File_Name));
+   
+   Finish := False;
+	
+   while not Finish loop
+      begin
+			Line := ASU.To_Unbounded_String(Ada.Text_IO.Get_Line(File));
+			
+			space_words(Line,List);
+			
+		--Ada.Text_IO.Put_Line(ASU.To_String(Line));
+      exception
+	 when Ada.IO_Exceptions.End_Error =>
+	    Finish := True;
+      end;
+   end loop;
+   Word_Lists.Print_All(List);
+   Ada.Text_IO.Close(File);
+
+exception
+   
+   when Usage_Error =>
+      Ada.Text_IO.Put_Line("Use: ");
+      Ada.Text_IO.Put_Line("       " & ACL.Command_Name & " <file>");
+   
+end Words;
